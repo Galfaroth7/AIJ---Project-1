@@ -1,2 +1,2 @@
 # AIJ---Project-1
-Implementaion of Boid Algorithm
+Implementaion of Boids Algorithm
