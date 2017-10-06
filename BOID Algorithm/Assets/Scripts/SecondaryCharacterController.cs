@@ -43,27 +43,12 @@ public class SecondaryCharacterController : MonoBehaviour {
 
     public void InitializeMovement(GameObject[] obstacles, List<DynamicCharacter> characters)
     {
-        //foreach (var obstacle in obstacles)
-        //{
-        //    //TODO: add your AvoidObstacle movement here
-        //    var avoidObstacleMovement = new DynamicAvoidObstacle(obstacle)
-        //    {
-        //        MaxAcceleration = MAX_ACCELERATION,
-        //        MaxLookAhead = MAX_LOOK_AHEAD,
-        //        AvoidMargin = AVOID_MARGIN,
-        //        Character = this.character.KinematicData,
-        //        DebugColor = Color.magenta
-        //    };
-
-        //    this.priorityMovement.Movements.Add(avoidObstacleMovement);
-        //}
-
         var separation = new BOIDSeparation()
         {
             Character = this.character.KinematicData,
             Flock = characters,
             MaxAcceleration = MAX_ACCELERATION,
-            Radius = 5.0f,
+            Radius = 15.0f,
             SeparationFactor = 50,
             DebugColor = Color.cyan
         };
@@ -72,8 +57,8 @@ public class SecondaryCharacterController : MonoBehaviour {
         {
             Character = this.character.KinematicData,
             Flock = characters,
-            Radius = 20.0f,
-            FanAngle = 60,
+            Radius = 25.0f,
+            FanAngle = 120,
             MaxAcceleration = MAX_ACCELERATION,
             MaxSpeed = MAX_SPEED,
             TargetRadius = 8.0f,
@@ -87,7 +72,7 @@ public class SecondaryCharacterController : MonoBehaviour {
             Character = this.character.KinematicData,
             Flock = characters,
             Radius = 10.0f,
-            FanAngle = 15,
+            FanAngle = 120,
             DebugColor = Color.magenta
         };
 
@@ -96,55 +81,19 @@ public class SecondaryCharacterController : MonoBehaviour {
             MaxAcceleration = MAX_ACCELERATION
         };
 
-        var kinData = new KinematicData();
-        kinData.Position = new Vector3(10.0f, 0, 10.0f);
-        var seek = new DynamicSeek
+       
+        var straightAhead = new DynamicStraightAhead
         {
             Character = this.character.KinematicData,
-            Target = kinData,
-            MaxAcceleration = MAX_ACCELERATION
+            MaxAcceleration = MAX_ACCELERATION,
+            DebugColor = Color.yellow
         };
-        this.blendedMovement.Movements.Add(new MovementWithWeight(separation, 40.0f));
-        this.blendedMovement.Movements.Add(new MovementWithWeight(cohesion, 6.0f));
-        this.blendedMovement.Movements.Add(new MovementWithWeight(flockVelocityMatch, 20.0f));
-        this.blendedMovement.Movements.Add(new MovementWithWeight(mouseSeek, 8.0f));
-        //this.blendedMovement.Movements.Add(new MovementWithWeight(seek, 10.0f));
+        
+        this.blendedMovement.Movements.Add(new MovementWithWeight(separation, 9.0f));
+        this.blendedMovement.Movements.Add(new MovementWithWeight(cohesion, 10.0f));
+        this.blendedMovement.Movements.Add(new MovementWithWeight(flockVelocityMatch, 4.0f));
+        this.blendedMovement.Movements.Add(new MovementWithWeight(mouseSeek, 6.5f));
         this.character.Movement = this.blendedMovement;
-
-        /**
-         * TODO: It should be blended
-         * */
-
-        //this.priorityMovement.Movements.Add(separation);
-
-        //float shortestTime = float.MaxValue;
-        //foreach (var otherCharacter in characters)
-        //{
-        //    if (otherCharacter != character)
-        //    {
-        //        //TODO: add your avoidCharacter movement here
-        //        var avoidCharacter = new DynamicAvoidCharacter(otherCharacter.KinematicData, ref shortestTime)
-        //        {
-        //            Character = this.character.KinematicData,
-        //            MaxAcceleration = MAX_ACCELERATION,
-        //            AvoidMargin = 2.0f,
-        //            DebugColor = Color.cyan,
-        //            MaxLookAhead = 1.0f
-        //        };
-
-        //        this.priorityMovement.Movements.Add(avoidCharacter);
-        //    }
-        //}
-
-        //var straightAhead = new DynamicStraightAhead
-        //{
-        //    Character = this.character.KinematicData,
-        //    MaxAcceleration = MAX_ACCELERATION,
-        //    DebugColor = Color.yellow
-        //};
-
-        //this.priorityMovement.Movements.Add(straightAhead);
-
     }
 
 

@@ -14,29 +14,29 @@ public class SceneManager : MonoBehaviour
     public const float MAX_ACCELERATION = 40.0f;
     public const float DRAG = 0.1f;
 
-    public GameObject mainCharacterGameObject;
+    //public GameObject mainCharacterGameObject;
     public GameObject secondaryCharacterGameObject;
 
     private BlendedMovement Blended { get; set; }
     private PriorityMovement Priority { get; set; }
 
-    private MainCharacterController mainCharacterController;
+    //private MainCharacterController mainCharacterController;
     private List<SecondaryCharacterController> secondaryCharacterControllers;
 
 	// Use this for initialization
 	void Start () 
 	{
-        this.mainCharacterController = this.mainCharacterGameObject.GetComponent<MainCharacterController>();
+        //this.mainCharacterController = this.mainCharacterGameObject.GetComponent<MainCharacterController>();
 
 		var textObj = GameObject.Find ("InstructionsText");
-		if (textObj != null) 
-		{
-			textObj.GetComponent<Text>().text = 
-				"Instructions\n\n" +
-				this.mainCharacterController.blendedKey + " - Blended\n" +
-				this.mainCharacterController.priorityKey + " - Priority\n"+
-                this.mainCharacterController.stopKey + " - Stop"; 
-		}
+		//if (textObj != null) 
+		//{
+		//	textObj.GetComponent<Text>().text = 
+		//		"Instructions\n\n" +
+		//		this.mainCharacterController.blendedKey + " - Blended\n" +
+		//		this.mainCharacterController.priorityKey + " - Priority\n"+
+  //              this.mainCharacterController.stopKey + " - Stop"; 
+		//}
 	    
         
 	    var obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
@@ -47,9 +47,9 @@ public class SceneManager : MonoBehaviour
         //LINQ expression with a lambda function, returns an array with the DynamicCharacter for each secondary character controler
         var characters = this.secondaryCharacterControllers.Select(cc => cc.character).ToList();
         //add the character corresponding to the main character
-        characters.Add(this.mainCharacterController.character);
+        //characters.Add(this.mainCharacterController.character);
 
-        this.mainCharacterController.InitializeMovement(obstacles, characters);
+        //this.mainCharacterController.InitializeMovement(obstacles, characters);
 
         //initialize all secondary characters
 	    foreach (var characterController in this.secondaryCharacterControllers)

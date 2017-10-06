@@ -41,7 +41,8 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
                     }
                 }
             }
-            if (closeBoids == 0) return new MovementOutput();
+            if (closeBoids == 0)
+                return new MovementOutput();
             massCenter /= closeBoids;
             Target.Position = massCenter;
             return base.GetMovement();

@@ -16,27 +16,27 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
         {
             if (Input.GetAxis("Fire1") > 0f)
             {
-  
+
                 var mousePos = Input.mousePosition;
                 mousePos.z = 55.8f;
                 var worldPos = Camera.main.ScreenToWorldPoint(mousePos);
                 worldPos.y = 0.0f;
                 Target.Position = worldPos;
-               
+
                 return base.GetMovement();
             }
-            //if (Input.GetMouseButtonDown(0))
-            //{
-            //    while (Input.GetMouseButton(0))
-            //    {
-            //Target.Position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //Target.Position = new Vector3(10.0f, 0 , 10.0f);
-                    //return base.GetMovement();
-            //    }
-               
-            //}
-                return new MovementOutput();
+            else
+            {
+                this.Output.linear = this.Character.GetOrientationAsVector();
+
+                if (this.Output.linear.sqrMagnitude > 0)
+                {
+                    this.Output.linear.Normalize();
+                    this.Output.linear *= this.MaxAcceleration;
+                }
+
+                return this.Output;
+            }
         }
-           
     }
 }
