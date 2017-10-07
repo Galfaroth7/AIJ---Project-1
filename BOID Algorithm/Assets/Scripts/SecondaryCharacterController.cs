@@ -16,7 +16,7 @@ public class SecondaryCharacterController : MonoBehaviour {
     //private PriorityMovement priorityMovement;
     public BlendedMovement blendedMovement;
 
-    private const float AVOID_MARGIN = 88.0f;
+    private const float AVOID_MARGIN = 98.0f;
     private const float MAX_LOOK_AHEAD = 10.0f;
 
 
