@@ -13,11 +13,11 @@ public class SecondaryCharacterController : MonoBehaviour {
     private const float DRAG = 0.1f;
 
     public DynamicCharacter character;
-    private PriorityMovement priorityMovement;
+    //private PriorityMovement priorityMovement;
     public BlendedMovement blendedMovement;
 
-    private const float AVOID_MARGIN = 100.0f;
-    private const float MAX_LOOK_AHEAD = 15.0f;
+    private const float AVOID_MARGIN = 88.0f;
+    private const float MAX_LOOK_AHEAD = 10.0f;
 
 
     //early initialization
@@ -25,10 +25,7 @@ public class SecondaryCharacterController : MonoBehaviour {
     {
         this.character = new DynamicCharacter(gameObject);
 
-        this.priorityMovement = new PriorityMovement
-        {
-            Character = this.character.KinematicData
-        };
+        
         this.blendedMovement = new BlendedMovement
         {
             Character = this.character.KinematicData
@@ -43,6 +40,40 @@ public class SecondaryCharacterController : MonoBehaviour {
 
     public void InitializeMovement(GameObject[] obstacles, List<DynamicCharacter> characters)
     {
+        foreach (var obstacle in obstacles)
+        {
+            //AvoidObstacle movement
+            var avoidObstacleMovement = new DynamicAvoidObstacle(obstacle)
+            {
+                MaxAcceleration = MAX_ACCELERATION,
+                MaxLookAhead = MAX_LOOK_AHEAD,
+                AvoidMargin = AVOID_MARGIN,
+                Character = this.character.KinematicData,
+                DebugColor = Color.magenta
+            };
+            this.blendedMovement.Movements.Add(new MovementWithWeight(avoidObstacleMovement, 160.0f));
+            
+        }
+
+        float shortestTime = float.MaxValue;
+        foreach (var otherCharacter in characters)
+        {
+            if (otherCharacter != character)
+            {
+                //avoidCharacter movement
+                var avoidCharacter = new DynamicAvoidCharacter(otherCharacter.KinematicData, ref shortestTime)
+                {
+                    Character = this.character.KinematicData,
+                    MaxAcceleration = MAX_ACCELERATION,
+                    AvoidMargin = 2.0f,
+                    DebugColor = Color.cyan,
+                    MaxLookAhead = 1.0f
+                };
+
+                this.blendedMovement.Movements.Add(new MovementWithWeight(avoidCharacter, 28.0f));
+            }
+        }
+
         var separation = new BOIDSeparation()
         {
             Character = this.character.KinematicData,
@@ -89,10 +120,11 @@ public class SecondaryCharacterController : MonoBehaviour {
             DebugColor = Color.yellow
         };
         
-        this.blendedMovement.Movements.Add(new MovementWithWeight(separation, 9.0f));
-        this.blendedMovement.Movements.Add(new MovementWithWeight(cohesion, 10.0f));
+        this.blendedMovement.Movements.Add(new MovementWithWeight(separation, 11.0f));
+        this.blendedMovement.Movements.Add(new MovementWithWeight(cohesion, 12.0f));
         this.blendedMovement.Movements.Add(new MovementWithWeight(flockVelocityMatch, 4.0f));
-        this.blendedMovement.Movements.Add(new MovementWithWeight(mouseSeek, 6.5f));
+        this.blendedMovement.Movements.Add(new MovementWithWeight(mouseSeek, 10.5f));
+        this.blendedMovement.Movements.Add(new MovementWithWeight(straightAhead, 2.5f));
         this.character.Movement = this.blendedMovement;
     }
 
