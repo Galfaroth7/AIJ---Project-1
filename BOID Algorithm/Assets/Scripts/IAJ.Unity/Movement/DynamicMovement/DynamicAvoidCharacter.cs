@@ -38,22 +38,22 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
         {
             var output = new MovementOutput();
             
-            var deltaPosition = Target.Position - Character.Position;
-            var deltaVelocity = Target.velocity - Character.velocity;
-            var deltaSpeed = deltaVelocity.magnitude;
+            Vector3 deltaPosition = Target.Position - Character.Position;
+            Vector3 deltaVelocity = Target.velocity - Character.velocity;
+            float deltaSpeed = deltaVelocity.magnitude;
             if (deltaSpeed == 0)
             {
                 return output;
             }
-            var dott = Vector3.Dot(deltaPosition, deltaVelocity);
-            var positiveDot = dott * -1.0f;
-            var timeToClosest = Math.Abs(dott) / (deltaSpeed * deltaSpeed);
+            float dott = Vector3.Dot(deltaPosition, deltaVelocity);
+            float positiveDot = dott * -1.0f;
+            float timeToClosest = Math.Abs(dott) / (deltaSpeed * deltaSpeed);
             if (timeToClosest > MaxLookAhead)
             {
                 return output;
             }
-            var futureDeltaPosition = deltaPosition + deltaVelocity * timeToClosest;
-            var futureDistance = futureDeltaPosition.magnitude;
+            Vector3 futureDeltaPosition = deltaPosition + deltaVelocity * timeToClosest;
+            float futureDistance = futureDeltaPosition.magnitude;
             if (futureDistance > 2*AvoidMargin)
             {
                 return output;

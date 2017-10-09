@@ -19,18 +19,18 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
 
         public override MovementOutput GetMovement()
         {
-            var averageVelocity = new Vector3();
-            var closeBoids = 0;
+            Vector3 averageVelocity = new Vector3();
+            int closeBoids = 0;
             
             foreach (var boid in Flock)
             {
                 if (!boid.KinematicData.Equals(Character))
                 {
-                    var direction = boid.KinematicData.Position - Character.Position;
+                    Vector3 direction = boid.KinematicData.Position - Character.Position;
                     if (direction.magnitude <= Radius)
                     {
-                        var angle = MathHelper.ConvertVectorToOrientation(direction);
-                        var angleDifference = MathHelper.ShortestAngleDifference(Character.Orientation, angle);
+                        float angle = MathHelper.ConvertVectorToOrientation(direction);
+                        float angleDifference = MathHelper.ShortestAngleDifference(Character.Orientation, angle);
 
                         if (Math.Abs(angleDifference) <= FanAngle)
                         {

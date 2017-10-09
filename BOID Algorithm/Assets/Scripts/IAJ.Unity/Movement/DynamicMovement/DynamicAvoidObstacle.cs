@@ -16,11 +16,13 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
         public int MaxFrames = 30;
         KinematicData target = new KinematicData();
         RaycastHit hit;
+        private Collider collider;
 
         public DynamicAvoidObstacle(GameObject obstacle)
         {
             this.DebugColor = Color.magenta;
             this.obstacle = obstacle;
+            this.collider = obstacle.GetComponent<Collider>();
         }
 
 
@@ -32,11 +34,7 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
             Ray rightWhisker = new Ray(Character.Position, MathHelper.ConvertOrientationToVector(Character.Orientation - 30));
            
 
-            /**
-             * TODO Change GetComponent to initialize in constructor and save it as private field
-             **/
-
-            Collider collider = obstacle.GetComponent<Collider>();
+                      
             if (collider.Raycast(centralRay, out hit, MaxLookAhead))
             {
                 target.Position = hit.point + hit.normal * AvoidMargin;   
@@ -54,14 +52,7 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
             this.Target = target;
             
             return base.GetMovement();
-            //FrameCounter = 0;
-
-            //}
-            //else
-            //{
-            //    FrameCounter++;
-            //    return null;
-            //}
+            
 
 
         }

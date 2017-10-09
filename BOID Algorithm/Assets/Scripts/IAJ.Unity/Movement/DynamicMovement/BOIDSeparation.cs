@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
 {
@@ -34,11 +35,11 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
             {
                 if (!boid.KinematicData.Equals(Character))
                 {
-                    var direction = Character.Position - boid.KinematicData.Position;
-                    var distance = direction.magnitude;
+                    Vector3 direction = Character.Position - boid.KinematicData.Position;
+                    float distance = direction.magnitude;
                     if (distance < Radius)
                     {
-                        var separationStrength = Math.Min(SeparationFactor / (distance * distance), MaxAcceleration);
+                        float separationStrength = Math.Min(SeparationFactor / (distance * distance), MaxAcceleration);
                         direction.Normalize();
                         output.linear += direction * separationStrength;
                     }
